@@ -55,10 +55,11 @@ Tous les scénarios ont déclenché les règles attendues, avec envoi automatiqu
 |-----------|---------|
 | Ubuntu Server | 24.04 LTS |
 | Wazuh (Manager/Indexer/Dashboard) | 4.14.5 |
-| Docker / Docker Compose | — |
-| Suricata | 7.x |
-| Postfix | 3.x |
-| Kali Linux | 2025 |
+| Docker  | 29.1.3|
+| docker-compose | 1.29.2 |
+| Suricata | 7.0.3 |
+| Postfix | 3.7.2 |
+| Kali Linux | 2026.1 |
 | Windows 10 Pro | 22H2 |
 
 ## 📁 Structure du dépôt
