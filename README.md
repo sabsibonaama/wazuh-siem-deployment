@@ -1,6 +1,6 @@
 # 🛡️ Déploiement et personnalisation d'une plateforme SIEM basée sur Wazuh
 
-Projet réalisé dans le cadre d'un stage de fin de 1ère année (Cycle Ingénieur) en **Cybersécurité et Confiance Numérique**, effectué chez **Annour Technologies** (du 01 au 31 juillet 2026).
+Projet réalisé dans le cadre d'un stage de fin de 1ère année (Cycle Ingénieur) en **Cybersécurité et Confiance Numérique** (du 01 au 31 juillet 2026).
 
 ## 📋 Contexte
 
