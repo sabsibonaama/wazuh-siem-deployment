@@ -1,0 +1,123 @@
+
+<!-- ============================================================
+     GROUPE 1 : Détection des attaques par force brute et
+     de l'escalade de privilèges (Linux)
+     ============================================================ -->
+<group name="custom,ssh,sudo,fim,">
+
+  <!-- Détection de tentatives de connexion échouées répétées -->
+  <rule id="100100" level="10" frequency="5" timeframe="120">
+    <if_matched_sid>5760</if_matched_sid>
+    <description>Custom rule: Multiple failed login attempts</description>
+    <mitre>
+      <id>T1110</id>
+    </mitre>
+  </rule>
+
+  <!-- Traçabilité de l'utilisation de sudo -->
+  <rule id="100102" level="8">
+    <if_sid>5402</if_sid>
+    <description>Custom rule: Utilisation de sudo</description>
+    <mitre>
+      <id>T1548.003</id>
+    </mitre>
+  </rule>
+
+  <!-- Corrélation : brute-force suivi d'une escalade de privilèges -->
+  <rule id="100120" level="12" timeframe="300">
+    <if_matched_sid>100100</if_matched_sid>
+    <if_sid>100102</if_sid>
+    <description>Custom rule: Correlation: Privilege escalation following brute-force login attempts</description>
+    <mitre>
+      <id>T1078</id>
+    </mitre>
+  </rule>
+
+</group>
+
+<!-- ============================================================
+     GROUPE 2 : Détection au niveau du module PAM
+     ============================================================ -->
+<group name="pam,syslog,">
+
+  <!-- Détection de tentatives répétées de découverte de mot de passe -->
+  <rule id="100115" level="6" frequency="3" timeframe="120">
+    <if_matched_sid>5503</if_matched_sid>
+    <description>Custom rule: Possible password guessing attack</description>
+    <mitre>
+      <id>T1110</id>
+    </mitre>
+  </rule>
+
+</group>
+
+<!-- ============================================================
+     GROUPE 3 : Détection des activités suspectes sous Windows
+     ============================================================ -->
+<group name="windows,powershell,">
+
+  <!-- Détection d'une commande PowerShell encodée en Base64 -->
+  <rule id="100130" level="12">
+    <if_group>windows</if_group>
+    <field name="win.system.eventID">^4688$</field>
+    <field name="win.eventdata.commandLine" type="pcre2">(?i)(-enc|--encodedcommand|-e\s)</field>
+    <description>Custom rule: Windows: Suspicious encoded PowerShell command</description>
+    <mitre>
+      <id>T1059.001</id>
+    </mitre>
+  </rule>
+
+</group>
+
+<group name="windows,sysmon,custom,mitre,">
+
+  <!-- Détection de reconnaissance de configuration réseau (Sysmon) -->
+  <rule id="100121" level="10">
+    <if_sid>92052</if_sid>
+    <field name="win.eventdata.commandLine" type="pcre2">(?i).*(arp\s+-a|ipconfig(\s+/all)?|route\s+print).*</field>
+    <description>Custom rule: MITRE T1016 - Network Configuration Discovery detected</description>
+    <mitre>
+      <id>T1016</id>
+    </mitre>
+    <group>attack,atomic_red_team,discovery,windows,</group>
+  </rule>
+
+</group>
+
+<!-- ============================================================
+     GROUPE 4 : Détection des scans réseau et connexions
+     suspectes via Suricata
+     ============================================================ -->
+<group name="suricata,ids,">
+
+  <!-- Détection d'un scan Nmap SYN -->
+  <rule id="100601" level="6">
+    <if_sid>86601</if_sid>
+    <field name="alert.signature_id">1000001</field>
+    <description>Custom rule: MITRE T1595 - Nmap SYN Scan detected</description>
+    <mitre>
+      <id>T1595</id>
+    </mitre>
+  </rule>
+
+  <!-- Détection d'un scan Nmap NULL -->
+  <rule id="100602" level="6">
+    <if_sid>86601</if_sid>
+    <field name="alert.signature_id">1000004</field>
+    <description>Custom rule: MITRE T1595 - Nmap NULL Scan detected</description>
+    <mitre>
+      <id>T1595</id>
+    </mitre>
+  </rule>
+
+  <!-- Détection d'une connexion Netcat -->
+  <rule id="100603" level="6">
+    <if_sid>86601</if_sid>
+    <field name="alert.signature_id">1000005</field>
+    <description>Custom rule: Netcat connection detected</description>
+    <mitre>
+      <id>T1071</id>
+    </mitre>
+  </rule>
+
+</group>
