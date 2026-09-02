@@ -1,6 +1,8 @@
 # 🛡️ Déploiement et personnalisation d'une plateforme SIEM basée sur Wazuh
 
-Projet réalisé dans le cadre d'un stage de fin de 1ère année (Cycle Ingénieur) en **Cybersécurité et Confiance Numérique** (du 01 au 31 juillet 2026).
+Projet réalisé dans le cadre d'un stage de fin de 1ère année (Cycle Ingénieur) en **Cybersécurité et Confiance Numérique**, effectué chez **Annour Technologies** (du 01 au 31 juillet 2026).
+
+> 📌 Ce dépôt présente les aspects techniques du projet (configuration, règles de détection, scénarios de test). Le rapport de stage complet n'est pas publié ici pour des raisons de confidentialité (infrastructure et données internes de l'entreprise d'accueil).
 
 ## 📋 Contexte
 
@@ -38,12 +40,15 @@ Ce projet vise à centraliser la collecte des journaux d'événements, automatis
 | 100602 | 6 | T1595 | Scan Nmap NULL |
 | 100603 | 6 | T1071 | Connexion Netcat détectée |
 
+Détail complet : [`rules/local_rules.xml`](rules/local_rules.xml)
+
 ## 🧪 Scénarios de test validés
 
+Voir le dossier [`tests/`](tests/) pour le détail de chaque scénario (commandes utilisées, règles déclenchées, résultats) :
+
 - Scan réseau SYN (Nmap)
-- Password guessing local (`su`)
-- Escalade de privilèges (`su` + `sudo`)
-- Brute-force SSH (connexions manuelles + Hydra)
+- Password guessing local + escalade de privilèges (`su` + `sudo`)
+- Brute-force SSH (Hydra) avec corrélation
 - Commande PowerShell encodée en Base64
 - Reconnaissance réseau (Atomic Red Team — T1016)
 
@@ -55,7 +60,7 @@ Tous les scénarios ont déclenché les règles attendues, avec envoi automatiqu
 |-----------|---------|
 | Ubuntu Server | 24.04 LTS |
 | Wazuh (Manager/Indexer/Dashboard) | 4.14.5 |
-| Docker  | 29.1.3|
+| Docker  | 29.1.3 |
 | docker-compose | 1.29.2 |
 | Suricata | 7.0.3 |
 | Postfix | 3.7.2 |
@@ -63,3 +68,22 @@ Tous les scénarios ont déclenché les règles attendues, avec envoi automatiqu
 | Windows 10 Pro | 22H2 |
 
 ## 📁 Structure du dépôt
+├── architecture/ # Schémas d'architecture (générale + déployée)
+├── docker/ # docker-compose.yml (variables sensibles externalisées via .env)
+├── rules/ # Règles Wazuh personnalisées (local_rules.xml) et règles Suricata
+├── scripts/ # Scripts de déploiement et configuration des agents
+├── tests/ # Scénarios de test documentés et résultats de validation
+└── docs/ # Documentation technique complémentaire
+
+⚠️ Le fichier `docker/.env` (identifiants et mots de passe) n'est **pas** versionné — voir `.gitignore`.
+
+## 📚 Références
+
+- [Documentation Wazuh](https://documentation.wazuh.com)
+- [MITRE ATT&CK Framework](https://attack.mitre.org)
+- [Suricata User Guide](https://suricata.readthedocs.io)
+- [Atomic Red Team](https://atomicredteam.io)
+
+## 👤 Auteur
+
+**Naama SABSIBO** — École Nationale des Sciences Appliquées d'El Jadida, Filière CCN
