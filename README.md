@@ -67,7 +67,7 @@ Tous les scénarios ont déclenché les règles attendues, avec envoi automatiqu
 | Kali Linux | 2026.1 |
 | Windows 10 Pro | 22H2 |
 
-
+## 📁 Structure du dépôt
 
 ```
 wazuh-siem-deployment/
