@@ -67,13 +67,29 @@ Tous les scénarios ont déclenché les règles attendues, avec envoi automatiqu
 | Kali Linux | 2026.1 |
 | Windows 10 Pro | 22H2 |
 
-## 📁 Structure du dépôt
-├── architecture/ # Schémas d'architecture (générale + déployée)
-├── docker/ # docker-compose.yml (variables sensibles externalisées via .env)
-├── rules/ # Règles Wazuh personnalisées (local_rules.xml) et règles Suricata
-├── scripts/ # Scripts de déploiement et configuration des agents
-├── tests/ # Scénarios de test documentés et résultats de validation
-└── docs/ # Documentation technique complémentaire
+
+
+```
+wazuh-siem-deployment/
+├── README.md
+├── .gitignore
+├── architecture/
+│   └── diagrams/
+├── docker/
+│   ├── docker-compose.yml
+│   ├── .env                # non versionné (voir .gitignore)
+│   └── config/
+├── rules/
+│   ├── local_rules.xml
+│   └── suricata_rules/
+├── scripts/
+├── tests/
+│   ├── scan_nmap.md
+│   ├── bruteforce_ssh.md
+│   ├── powershell_encoded.md
+│   └── atomic_red_team_T1016.md
+└── docs/
+```
 
 ⚠️ Le fichier `docker/.env` (identifiants et mots de passe) n'est **pas** versionné — voir `.gitignore`.
 
